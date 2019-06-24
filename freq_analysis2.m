@@ -3,7 +3,7 @@ function [freq_array,powers,preserveFreqPower]=freq_analysis2(y,Fs,plot_flag,pre
 % preservefreq can be a frequency that needs to be preserved during the
 % harmonics removal
 
-% uses http://www.mathworks.com/support/tech-notes/1700/1702.html
+% uses http://www.mathworks.com/support/tech-notes/1700/1702.html, following Limkjær2009
 
 preserveFreqPower = 0;
 
