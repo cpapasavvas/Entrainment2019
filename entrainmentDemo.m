@@ -2,7 +2,7 @@ load('optimSets.mat')
 optimSet = transformSet(optimEndAlt);
 
 
-phase = 0;  % initial phase difference; to multiply pi/2
+phase = 0;  % initial phase difference; use only [0 1 2 3]: to be multiplied by pi/2
 AMP = 0.7;  % amplitude      
 FREQ = 4;   % frequency
                 
