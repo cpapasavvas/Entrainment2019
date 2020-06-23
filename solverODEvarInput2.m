@@ -118,6 +118,8 @@ if plotflag
     hold on
     plot(t,y(:,1))
     stem(convergedAt, 0.5)
+    legend('external drive P(t)', 'excitatory population E(t)', 'convergence timepoint')
+    xlabel('time (s)')
     hold off
 end
 
