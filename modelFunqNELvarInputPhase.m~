@@ -1,5 +1,5 @@
 function dxdt = modelFunqNELvarInputPhase(t,x,ext_in_t, ext_in_v,w1,w2,w3,w4,w5,w6,w7,parq)
-% Neural mass model of a neocortical microcircuit with one excitatory,x(1),
+% Neural mass model of a neocortical microcircuit with one excitatory
 % population and two inhibitory populations.
 % The first inhibitory population, x(2), represents the dendrite-targeting
 % interneurons and it delivers subtractive inhibition to the excitatory 
@@ -45,9 +45,9 @@ a_d=2;        % max slope for the sigmoidal of soma-target.
 u_e=4;        % min displacement for the sigmoidal of excit. popul.
 u_s=3.7;      % min displacement for the sigmoidal of dend-targ. popul.
 u_d=3.7;      % min displacement for the sigmoidal of soma-targ. popul.
-t_e=0.05;     % time constant for the sigmoidal of excit. popul.
-t_s=0.05;     % time constant for the sigmoidal of dend-targ. popul.
-t_d=0.05;     % time constant for the sigmoidal of soma-targ. popul.
+t_e=0.05;     % time constant
+t_s=0.05;
+t_d=0.05;
 
 
 dxdt(1)=(-x(1)+((exp(a_e*u_e)/(1+exp(a_e*u_e)))-r_e*x(1))*(a_e/(a_e+q*w_ed*x(3)))*(1/(1+exp(-a_e*((w_ee*x(1)+P)-(u_e+w_es*x(2)+(1-q)*w_ed*x(3)))))-1/(1+exp(a_e*u_e))))/t_e;

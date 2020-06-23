@@ -10,4 +10,4 @@ plotFlag = 1;
 q = 1;   % divisiveness parameter: ranges from 0 to 1
 parameters = [optimSet q AMP FREQ]; 
 
-[~,syn_index, tConv, absP, delayPh]=solverODEvarInput2(plotFlag, parameters, phase, 0);
+[~,syn_index, tConv, absP, delayPh]=solverODEvarInput2(plotFlag, parameters, phase);

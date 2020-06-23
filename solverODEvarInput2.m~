@@ -62,8 +62,11 @@ oscillDrive = circshift(oscillDrive,timeIND);
 oscillDrive(1:timeIND) = offset*ones(1,timeIND); 
 
 parameters={tRange, oscillDrive,par(2),par(3),par(4),par(5),par(6),par(7),par(8),par(9)};
-[t,y]=ode45(@modelFunqNELvarInputPhase,tRange,x_ini,options,parameters{:});
-
+if elegance
+    [t,y]=ode45(@modelFunqESDvarInputPhase,tRange,x_ini,options,parameters{:});
+else
+    [t,y]=ode45(@modelFunqNELvarInputPhase,tRange,x_ini,options,parameters{:});
+end
 
 % make up the attractor set with a tolerance
 tolerance = 1e-3;
