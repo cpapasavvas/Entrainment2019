@@ -13,4 +13,4 @@ The script calls the function solverODEvarInput2 which collects all the paramete
 
 The ODE solver calls the modelFunqNELvarInputPhase which describes the model
 
-The freq_analysis2 functin is called to after the ODE solver to do spectral analysis on the generated signal
+The freq_analysis2 function is called after the ODE solver to do spectral analysis on the generated signal
