@@ -1,4 +1,4 @@
-function dxdt = modelFunqNELvarInputPhase(t,x,ext_in_t, ext_in_v,w1,w2,w3,w4,w5,w6,w7,parq)
+function dxdt = modelFunqNELvarInputPhase(t,x,pars)
 % Neural mass model of a neocortical microcircuit with one excitatory,x(1),
 % population and two inhibitory populations.
 % The first inhibitory population, x(2), represents the dendrite-targeting
@@ -17,7 +17,7 @@ function dxdt = modelFunqNELvarInputPhase(t,x,ext_in_t, ext_in_v,w1,w2,w3,w4,w5,
 dxdt=zeros(3,1);
 
 % external input, allowing time-varying
-P=interp1(ext_in_t, ext_in_v, t);
+P=interp1(pars{1}, pars{2}, t);
 
 % CAUTION to avoid confusion with the parameter subscripts:
 % The subscript s refers to subtractive inhibition and, thus, to 
@@ -26,16 +26,16 @@ P=interp1(ext_in_t, ext_in_v, t);
 % the soma-targeting population.
 
 w_p=0;        % gating factor for external input P onto inhib. populations
-w_ee=w1;      % self-excitation weight for the excitatory population
-w_es=w2;      % weight of inhibition from dendrite-targeting to excitatory
-w_ed=w3;      % weight of inhibition from soma-targeting to excitatory
-w_se=w4;      % weight of excitation from excitatory to dendrite-targeting
+w_ee=pars{3}; % self-excitation weight for the excitatory population
+w_es=pars{4}; % weight of inhibition from dendrite-targeting to excitatory
+w_ed=pars{5}; % weight of inhibition from soma-targeting to excitatory
+w_se=pars{6}; % weight of excitation from excitatory to dendrite-targeting
 w_ss=0;       % self-inhibition weight for dendrite-targeting, disabled
 w_sd=0;       % weight of inh. from soma-targ. to dend-targ. , disabled
-w_de=w5;      % weight of excitation from excitatory to soma-targeting
-w_ds=w6;      % weight of inhibition from dend-targ. to soma-targeting
-w_dd=w7;      % self-inhibition weight for soma-targeting
-q=parq;       % parameter dictating the proportion of divisive inhibition
+w_de=pars{7}; % weight of excitation from excitatory to soma-targeting
+w_ds=pars{8}; % weight of inhibition from dend-targ. to soma-targeting
+w_dd=pars{9}; % self-inhibition weight for soma-targeting
+q=pars{10};   % parameter dictating the proportion of divisive inhibition
 r_e=1;        % constant refractory parameter for excitatory population
 r_s=1;        % constant refractory parameter for dendrite-targeting popul.
 r_d=1;        % constant refractory parameter for soma-targeting population

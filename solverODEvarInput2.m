@@ -23,7 +23,7 @@ constantDrive = offset * ones(size(tRange));
 % start for the selected phase
 
 parameters={tRange, constantDrive,par(2),par(3),par(4),par(5),par(6),par(7),par(8),par(9)};
-[t,x]=ode45(@modelFunqNELvarInputPhase,tRange,x_ini,options,parameters{:});
+[t,x]=ode45(@modelFunqNELvarInputPhase,tRange,x_ini,options,parameters);
 
 
 X = x(:,1);
@@ -62,7 +62,7 @@ oscillDrive = circshift(oscillDrive,timeIND);
 oscillDrive(1:timeIND) = offset*ones(1,timeIND); 
 
 parameters={tRange, oscillDrive,par(2),par(3),par(4),par(5),par(6),par(7),par(8),par(9)};
-[t,y]=ode45(@modelFunqNELvarInputPhase,tRange,x_ini,options,parameters{:});
+[t,y]=ode45(@modelFunqNELvarInputPhase,tRange,x_ini,options,parameters);
 
 
 % make up the attractor set with a tolerance
