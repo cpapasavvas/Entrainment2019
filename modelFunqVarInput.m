@@ -1,4 +1,4 @@
-function dxdt = modelFunqNELvarInputPhase(t,x,pars)
+function dxdt = modelFunqVarInput(t,x,pars)
 % Neural mass model of a neocortical microcircuit with one excitatory,x(1),
 % population and two inhibitory populations.
 % The first inhibitory population, x(2), represents the dendrite-targeting
@@ -14,6 +14,7 @@ function dxdt = modelFunqNELvarInputPhase(t,x,pars)
 % varying. The inhibitory populations can receive extenral input as well
 % by setting the w_p parameter above 0.
 
+% state variables
 dxdt=zeros(3,1);
 
 % external input, allowing time-varying

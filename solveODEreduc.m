@@ -1,7 +1,7 @@
 function [synchr_index, tConv, in_freq_absPower,delayPh]=solveODEreduc(plotflag, par, phase)
 % par = [P w1 w2 w3 w4 w5 w6 w7 q AMP FREQ]
 
-% Settings
+% Settings for the solver
 options = odeset('InitialStep',1e-03,'MaxStep',0.005);
 % Define simulation time 
 t_end=20;
@@ -13,7 +13,7 @@ x_ini= [0 0 0];
 in_freq= par(11);
 ampl=par(10);
 offset= par(1);
-thalf = t_end/2;       % first half of simulation, no transition allowed
+thalf = t_end/2;     % first half of simulation where no transition allowed
 
 %prepare constant drive - parameter offset used
 constantDrive = offset * ones(size(tRange));
@@ -22,7 +22,7 @@ constantDrive = offset * ones(size(tRange));
 % the purpose is to find the transition time: when the constant input
 % should become oscillating input
 parameters={tRange, constantDrive,par(2),par(3),par(4),par(5),par(6),par(7),par(8),par(9)};
-[t,x]=ode45(@modelFunqNELvarInputPhase,tRange,x_ini,options,parameters);
+[t,x]=ode45(@modelFunqVarInput,tRange,x_ini,options,parameters);
 
 % find the peaks in both the signal and its first derivative
 % the peaks represent the phases 0, pi/2, pi, 3pi/2
@@ -61,7 +61,7 @@ oscillDrive = circshift(oscillDrive,transIND);
 oscillDrive(1:transIND) = offset*ones(1,transIND); 
 
 parameters={tRange, oscillDrive,par(2),par(3),par(4),par(5),par(6),par(7),par(8),par(9)};
-[t,y]=ode45(@modelFunqNELvarInputPhase,tRange,x_ini,options,parameters);
+[t,y]=ode45(@modelFunqVarInput,tRange,x_ini,options,parameters);
 
 
 % make up the attractor set to detect convergence in all 3 dimensions
