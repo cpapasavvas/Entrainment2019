@@ -1,4 +1,4 @@
-function [oscillating,synchr_index, tConv, in_freq_absPower,delayPh]=solverODEvarInput2(plotflag, par, phase)
+function [synchr_index, tConv, in_freq_absPower,delayPh]=solveODEreduc(plotflag, par, phase)
 % par = [P w1 w2 w3 w4 w5 w6 w7 q AMP FREQ]
 
 % Settings
@@ -13,7 +13,7 @@ x_ini= [0 0 0];
 in_freq= par(11);
 ampl=par(10);
 offset= par(1);
-transitionT = 10;       % this is different from t1
+transitionT = 10;       % transition timepoint
 
 
 constantDrive = offset * ones(size(tRange));
@@ -39,8 +39,9 @@ switch phase
     case 3
         [~,IND] = findpeaks(-X);
     otherwise
-        error('check phase')
+        error('check phase value')
 end
+clear X XX
 
 count=1;
 for i=length(IND)-1:-1:1
@@ -54,9 +55,8 @@ end
 timeIND = IND(find(t(IND)>transitionT,1));
 t1 = t(timeIND);
 
-clear X XX
 
-% this should make the oscillatory input start with phase 0 at t1
+% prepare the oscillatory input - starts at t1 with phase 0
 oscillDrive=offset+ampl*sin(2*pi*in_freq*tRange);
 oscillDrive = circshift(oscillDrive,timeIND);
 oscillDrive(1:timeIND) = offset*ones(1,timeIND); 
@@ -96,15 +96,6 @@ if delayPh > pi
     delayPh = delayPh - 2*pi;
 end
 
-% test for oscillation  - not useful anymore?
-maxv=max(y( round(31*end/32):end , :));
-minv=min(y( round(31*end/32):end , :));
-vrange=maxv-minv;
-if vrange(1)>0.02 && vrange(2)>0.002 && vrange(3)>0.002
-    oscillating=1;
-else
-    oscillating=0;
-end
 
 if plotflag
     figure(1)
