@@ -43,7 +43,7 @@ end
 clear X XX
 
 count=1;
-for i=length(IND)-1:-1:1        % cleaning up the phase indices
+for i=length(IND)-1:-1:1
     if IND(i)==IND(i+1)-count
         IND(i)=[];
         count= count+1;
@@ -51,7 +51,7 @@ for i=length(IND)-1:-1:1        % cleaning up the phase indices
         count=1;
     end
 end
-transIND = IND(find(t(IND)>thalf,1));   % transition index, first after thalf
+transIND = IND(find(t(IND)>thalf,1));   % transition index
 transitionT = t(transIND);              % transition time
 
 
@@ -64,7 +64,7 @@ parameters={tRange, oscillDrive,par(2),par(3),par(4),par(5),par(6),par(7),par(8)
 [t,y]=ode45(@modelFunqNELvarInputPhase,tRange,x_ini,options,parameters);
 
 
-% make up the attractor set to detect convergence in all 3 dimensions
+% make up the attractor set with a tolerance
 tolerance = 1e-3;
 indP = round(17*size(y,1)/20);
 attrSet = uniquetol(y(indP:end,:), tolerance,'ByRows',true);
@@ -76,7 +76,7 @@ for j  = indP :-1 :1
     end
 end
         
-% time needed for convergence
+% the time needed for convergence
 tConv = convergedAt - transitionT;
 tConv(tConv<0) = 0;
 
