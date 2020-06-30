@@ -1,5 +1,12 @@
-function [synchr_index, tConv, in_freq_absPower,delayPh]=solveODEreduc(plotflag, par, phase)
-% par = [P w1 w2 w3 w4 w5 w6 w7 q AMP FREQ]
+function [synchr_index, tConv, in_freq_absPow,delayPh]=solveODEreduc(plotflag, par)
+% input set of parameters:
+% par = [P w1 w2 w3 w4 w5 w6 w7 q AMP FREQ phase]
+%
+% output:
+%   synchronization index
+%   time needed for convergence
+%   absolute power of input frequency
+%   phase delay
 
 % Settings for the solver
 options = odeset('InitialStep',1e-03,'MaxStep',0.005);
@@ -10,6 +17,7 @@ tRange= 0 : timestep : t_end-timestep;
 Fs=1/timestep;
 
 x_ini= [0 0 0];
+phase = par(12);
 in_freq= par(11);
 ampl=par(10);
 offset= par(1);
@@ -60,6 +68,7 @@ oscillDrive=offset+ampl*sin(2*pi*in_freq*tRange);
 oscillDrive = circshift(oscillDrive,transIND);
 oscillDrive(1:transIND) = offset*ones(1,transIND); 
 
+% simulate again , now with oscillatory input
 parameters={tRange, oscillDrive,par(2),par(3),par(4),par(5),par(6),par(7),par(8),par(9)};
 [t,y]=ode45(@modelFunqVarInput,tRange,x_ini,options,parameters);
 
@@ -95,19 +104,28 @@ if delayPh > pi
     delayPh = delayPh - 2*pi;
 end
 
-
+% plot the response of the system and indicate the timepoint of
+% convergence
 if plotflag
     figure(1)
-    plot(t,0.35+oscillDrive/12);
+    subplot(2,1,1)
+    plot(t,oscillDrive);
     hold on
-    plot(t,y(:,1))
     stem(convergedAt, 0.5)
-    legend('external drive P(t)', 'excitatory population E(t)', 'convergence timepoint')
+    legend('external drive P(t)', 'convergence timepoint')
+    
+    subplot(2,1,2)
+    plot(t,y(:,1))
+    hold on
+    stem(convergedAt, 0.5)
+    legend( 'excitatory population E(t)', 'convergence timepoint')
     xlabel('time (s)')
     hold off
 end
 
-[out_freq, powers, in_freq_absPower]=freq_analysis2(y(round(2*end/3):end,1),Fs,plotflag,in_freq);
+% run spectral analysis on the last third of system response
+ypart = y(round(2*end/3):end,1);    %last third of system response
+[out_freq, powers, in_freq_absPow]=freq_analys(ypart,Fs,plotflag,in_freq);
 synchr_index=0;
 for i=1:length(out_freq)
     if out_freq(i)>=in_freq-0.2 && out_freq(i)<=in_freq+0.2

@@ -1,16 +1,14 @@
-function [freq_array,powers,preserveFreqPower]=freq_analysis2(y,Fs,plot_flag,preserveFreq)
-% this version takes an extra input which is a freuency to preserve
-% preservefreq can be a frequency that needs to be preserved during the
-% harmonics removal
+function [freq_array,powers,preserveFreqPower]=freq_analys(y,Fs,plot_flag,preserveFreq)
+% Function for the spectral analysis of the signal
+% It returns an array of detected frequencies with their normalised powers.
+% It also returns the absolute power of the preserveFreq (preserved while 
+% removing the harmonics)
 
 % uses http://www.mathworks.com/support/tech-notes/1700/1702.html, following Limkjær2009
 
 preserveFreqPower = 0;
 
-% y=w_rect'.*y;
-% y(y==0)=[];
-%y=filter(Hlp,y);
-
+% centering the signal
 y=y-mean(y);
 
 %applying hamming window
@@ -69,6 +67,7 @@ for i=1:length(freq_array)
     end
 end
 
+% normalise the spectrum by the maximal power
 if ~isempty(ind)
     dominant_freq=freq_array(1);
     max_val=val(1);
@@ -76,7 +75,6 @@ if ~isempty(ind)
 else
     dominant_freq=0;
 end
-
 
 %detecting and removing the harmonics
 for i=length(freq_array):-1:2
@@ -93,6 +91,7 @@ for i=length(freq_array):-1:2
     end
 end
 
+% normalised powers
 powers=(val./sum(val))';
 
 
@@ -101,5 +100,5 @@ if plot_flag
     figure; hold off; plot(f,mx);
     axis([0 70 0 1.1])
     title('Spectrum'); 
-    xlabel('Frequency (Hz)'); ylabel('Power');
+    xlabel('Frequency (Hz)'); ylabel('Normalized Power');
 end
