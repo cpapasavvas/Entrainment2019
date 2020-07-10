@@ -33,7 +33,7 @@ parameters={tRange, constantDrive,par(2),par(3),par(4),par(5),par(6),par(7),par(
 [t,x]=ode45(@modelFunqVarInput,tRange,x_ini,options,parameters);
 
 % find the peaks in both the signal and its first derivative
-% the peaks represent the phases 0, pi/2, pi, 3pi/2
+% the peaks represent the start of phases 0, pi/2, pi, 3pi/2
 X = x(:,1);
 XX = [0; diff(X)];
 switch phase
@@ -78,6 +78,7 @@ tolerance = 1e-3;
 indP = round(17*size(y,1)/20);
 attrSet = uniquetol(y(indP:end,:), tolerance,'ByRows',true);
 
+% find the timpoint of convergence
 for j  = indP :-1 :1
     if ~ismembertol(y(j, :), attrSet, 10*tolerance, 'ByRows',true)
         convergedAt = tRange(j+1);
@@ -113,6 +114,7 @@ if plotflag
     hold on
     stem(convergedAt, 0.5)
     legend('external drive P(t)', 'convergence timepoint')
+    ylabel('P(t)')
     
     subplot(2,1,2)
     plot(t,y(:,1))
@@ -120,6 +122,7 @@ if plotflag
     stem(convergedAt, 0.5)
     legend( 'excitatory population E(t)', 'convergence timepoint')
     xlabel('time (s)')
+    ylabel('E(t)')
     hold off
 end
 
