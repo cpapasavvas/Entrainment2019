@@ -9,6 +9,6 @@ Use the script entrainmentDemo to manipulate the parameters (initial phase diff.
 
 The script calls the function solverODEreduc which collects all the parameters and runs the enrtainment scenario/simulation.
 
-The ODE solver calls the modelFunqVarInput which describes the model.
+The solverODEreduc function calls the modelFunqVarInput which describes the model.
 
-The freq_analys function is called after the simulation to do spectral analysis on the generated signal.
+The freq_analys function is called after the simulation for the spectral analysis on the generated signal.
