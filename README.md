@@ -11,4 +11,4 @@ The script calls the function solverODEreduc which collects all the parameters a
 
 The solverODEreduc function calls the modelFunqVarInput which describes the model.
 
-The freq_analys function is called after the simulation for the spectral analysis on the generated signal.
+The freq_analys function is called after the simulation for the spectral analysis of the generated signal.
